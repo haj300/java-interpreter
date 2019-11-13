@@ -3,7 +3,7 @@ package prop.assignment0;
 import java.io.IOException;
 
 public class Parser implements IParser {
-    Tokenizer tokenizer = null;
+    private ITokenizer tokenizer = null;
 
     public void open(String fileName) throws IOException, TokenizerException {
         tokenizer = new Tokenizer();
