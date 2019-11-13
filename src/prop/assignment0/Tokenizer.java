@@ -7,7 +7,7 @@ import java.util.HashSet;
 public class Tokenizer implements ITokenizer {
 
     private static final HashMap<Character, Token> SYMBOLS;
-    private static final HashSet<String>
+    private static final HashSet<String> EXPR;
 
     static {
         SYMBOLS = new HashMap<>();

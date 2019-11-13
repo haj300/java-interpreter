@@ -14,7 +14,7 @@ public class Parser implements IParser {
     public INode parse() throws IOException, TokenizerException, ParserException {
         if (tokenizer == null)
             throw new IOException("No open file.");
-        return new TextNode();
+        return new AssignNode((tokenizer));
     }
 
     public void close() throws IOException {
@@ -22,19 +22,22 @@ public class Parser implements IParser {
             tokenizer.close();
     }
 
-    private class TextNode implements INode {
-        @Override
-        public Object evaluate(Object[] args) throws Exception {
-            return null;
-        }
+    private void addTabs(StringBuilder builder, int tabs) {
 
-        @Override
-        public void buildString(StringBuilder builder, int tabs) {
-
-        }
     }
 
-    private class ExpressionNode implements INode {
+    private class AssignNode implements INode {
+        INode e;
+        INode l;
+        Lexeme id;
+        Lexeme ao;
+        Lexeme sc;
+
+        public AssignNode(ITokenizer tz) {
+            l = new LetterNode(tz);
+            e = new ExprNode(tz);
+        }
+
         @Override
         public Object evaluate(Object[] args) throws Exception {
             return null;
@@ -42,11 +45,27 @@ public class Parser implements IParser {
 
         @Override
         public void buildString(StringBuilder builder, int tabs) {
+            builder.append("AssingmentNode\n");
+            builder.append(id.toString() + "\n");
+            builder.append(ao.toString() + "\n");
+            e.buildString(builder, tabs++);
+            builder.append(sc.toString() + "\n");
 
         }
+
     }
 
-    private class AssignmentNode implements INode {
+    private class ExprNode implements INode {
+
+        INode t;
+        INode e;
+        Lexeme op;
+
+        public ExprNode(ITokenizer tz) {
+            t = new TermNode(tz);
+            e = new ExprNode(tz);
+        }
+
         @Override
         public Object evaluate(Object[] args) throws Exception {
             return null;
@@ -54,11 +73,24 @@ public class Parser implements IParser {
 
         @Override
         public void buildString(StringBuilder builder, int tabs) {
-
+            builder.append("ExpressionNode\n");
+            t.buildString(builder,tabs++);
+            builder.append(op.toString() + "\n");
+            e.buildString(builder, tabs++);
         }
+
     }
 
     private class TermNode implements INode {
+
+        INode f;
+        INode t;
+
+        public TermNode(ITokenizer tz) {
+            f = new FactorNode(tz);
+            t = new TermNode(tz);
+        }
+
         @Override
         public Object evaluate(Object[] args) throws Exception {
             return null;
@@ -68,9 +100,38 @@ public class Parser implements IParser {
         public void buildString(StringBuilder builder, int tabs) {
 
         }
+
     }
 
     private class FactorNode implements INode {
+
+        INode t;
+        INode e;
+
+        public FactorNode(ITokenizer tz) {
+            t = new TermNode(tz);
+            e = new ExprNode(tz);
+        }
+        @Override
+        public Object evaluate(Object[] args) throws Exception {
+            return null;
+        }
+
+        @Override
+        public void buildString(StringBuilder builder, int tabs) {
+
+        }
+
+    }
+
+    private class LetterNode implements INode {
+
+        Lexeme lexeme;
+
+        public LetterNode(ITokenizer tz) {
+
+        }
+
         @Override
         public Object evaluate(Object[] args) throws Exception {
             return null;
@@ -81,6 +142,49 @@ public class Parser implements IParser {
 
         }
     }
+
+
+    private class NumberNode implements INode {
+
+        Lexeme lexeme;
+
+        public NumberNode(ITokenizer tz) {
+
+
+        }
+
+        @Override
+        public Object evaluate(Object[] args) throws Exception {
+            return null;
+        }
+
+        @Override
+        public void buildString(StringBuilder builder, int tabs) {
+
+        }
+    }
+
+
+
+    private class SymbolNode implements INode {
+
+            Lexeme lexeme;
+
+            public SymbolNode(Tokenizer tz) {
+
+
+            }
+
+        @Override
+        public Object evaluate(Object[] args) throws Exception {
+            return null;
+        }
+
+        @Override
+        public void buildString(StringBuilder builder, int tabs) {
+
+        }
+        }
 
 
 }
