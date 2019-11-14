@@ -18,6 +18,7 @@ public class Tokenizer implements ITokenizer {
 		// TODO: define the different constants of our grammar
 		// TODO Use all defined tokens?
 
+		// TODO Symbols might be unneeded since tokens are available in Token class.
 		Symbols.put('(', Token.LEFT_PAREN);
 		Symbols.put(')', Token.RIGHT_PAREN);
 		Symbols.put('+', Token.ADD_OP);
@@ -26,7 +27,7 @@ public class Tokenizer implements ITokenizer {
 		Symbols.put('/', Token.DIV_OP);
 		Symbols.put('=', Token.ASSIGN_OP);
 		Symbols.put(';', Token.SEMICOLON);
-		
+
 		Numbers.add(0);
 		Numbers.add(1);
 		Numbers.add(2);
