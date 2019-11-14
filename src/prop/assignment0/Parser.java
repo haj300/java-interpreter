@@ -66,7 +66,7 @@ public class Parser implements IParser {
 
 		public ExprNode(ITokenizer tz) {
 
-			try {
+			try {//TODO Try/catch might be unneeded. 
 
 				if (op.token() == Token.ADD_OP || op.token() == Token.SUB_OP) {
 
@@ -135,11 +135,12 @@ public class Parser implements IParser {
 
 	private class FactorNode implements INode {
 
-		INode t;
 		INode e;
+		Lexeme i;
 
 		public FactorNode(ITokenizer tz) {
-			t = new TermNode(tz);
+			
+			
 			e = new ExprNode(tz);
 		}
 
