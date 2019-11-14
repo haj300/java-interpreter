@@ -8,7 +8,6 @@ public class Tokenizer implements ITokenizer {
 
 	private static final HashMap<Character, Token> Symbols;
 	private static final HashSet<String> EXPR;
-	private static final HashSet<Integer> Numbers;
 
 	static {
 		Symbols = new HashMap<>();
@@ -27,17 +26,6 @@ public class Tokenizer implements ITokenizer {
 		Symbols.put('/', Token.DIV_OP);
 		Symbols.put('=', Token.ASSIGN_OP);
 		Symbols.put(';', Token.SEMICOLON);
-
-		Numbers.add(0);
-		Numbers.add(1);
-		Numbers.add(2);
-		Numbers.add(3);
-		Numbers.add(4);
-		Numbers.add(5);
-		Numbers.add(6);
-		Numbers.add(7);
-		Numbers.add(8);
-		Numbers.add(9);
 
 	}
 
