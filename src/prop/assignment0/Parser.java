@@ -35,7 +35,7 @@ public class Parser implements IParser {
 
 		public AssignNode(ITokenizer tz) {
 
-			//TODO Check that first char of ID is letter.
+			// TODO Check that first char of ID is letter.
 
 			l = new LetterNode(tz);
 			e = new ExprNode(tz);
@@ -65,6 +65,17 @@ public class Parser implements IParser {
 		Lexeme op;
 
 		public ExprNode(ITokenizer tz) {
+
+			try {
+
+				if (op.token() == Token.ADD_OP || op.token() == Token.SUB_OP) {
+
+				}
+
+			} catch (Exception e) {
+
+			}
+
 			t = new TermNode(tz);
 			e = new ExprNode(tz);
 		}
@@ -88,8 +99,20 @@ public class Parser implements IParser {
 
 		INode f;
 		INode t;
+		Lexeme op;
 
 		public TermNode(ITokenizer tz) {
+
+			try {
+
+				if (op.token() == Token.MULT_OP || op.token() == Token.DIV_OP) {
+
+				}
+
+			} catch (Exception e) {
+
+			}
+
 			f = new FactorNode(tz);
 			t = new TermNode(tz);
 		}
