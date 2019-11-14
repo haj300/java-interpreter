@@ -70,6 +70,8 @@ public class Parser implements IParser {
 
 				if (op.token() == Token.ADD_OP || op.token() == Token.SUB_OP) {
 
+				} else {
+					throw new ParserException("Bad operator");
 				}
 
 			} catch (Exception e) {
@@ -107,6 +109,8 @@ public class Parser implements IParser {
 
 				if (op.token() == Token.MULT_OP || op.token() == Token.DIV_OP) {
 
+				} else {
+					throw new ParserException("Bad operator");
 				}
 
 			} catch (Exception e) {
