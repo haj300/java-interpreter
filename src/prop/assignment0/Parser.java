@@ -28,11 +28,10 @@ public class Parser implements IParser {
 
 	private class AssignNode implements INode {
 		INode e;
-		INode l;
 		Lexeme id;
 		Lexeme ao;
 		Lexeme sc;
-
+		
 		public AssignNode(ITokenizer tz) {
 
 			try {// TODO Try/catch might be unneeded.
@@ -47,7 +46,6 @@ public class Parser implements IParser {
 
 			}
 
-			l = new LetterNode(tz);
 			e = new ExprNode(tz);
 		}
 
