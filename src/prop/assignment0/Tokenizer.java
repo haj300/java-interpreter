@@ -6,13 +6,23 @@ import java.util.HashSet;
 
 public class Tokenizer implements ITokenizer {
 
-    private static final HashMap<Character, Token> SYMBOLS;
+    private static final HashMap<Character, Token> Symbols;
     private static final HashSet<String> EXPR;
 
     static {
         SYMBOLS = new HashMap<>();
         EXPR = new HashSet<>();
+        
         // TODO: define the different constants of our grammar
+    
+        Symbols.put('(', Token.LEFT_PAREN);
+		Symbols.put(')', Token.RIGHT_PAREN);
+		Symbols.put('+', Token.ADD_OP);
+		Symbols.put('-', Token.SUB_OP);
+		Symbols.put('*', Token.MULT_OP);
+		Symbols.put('/', Token.DIV_OP);
+		Symbols.put('=', Token.ASSIGN_OP);
+    
     }
 
     private IScanner scanner = null;
