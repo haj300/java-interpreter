@@ -28,25 +28,14 @@ public class Parser implements IParser {
 
 	private class AssignNode implements INode {
 		INode e;
-		Lexeme id;
+		INode id;
 		Lexeme ao;
 		Lexeme sc;
-		
+
 		public AssignNode(ITokenizer tz) {
 
-			try {// TODO Try/catch might be unneeded.
-
-				if (id.value().toString().matches("\\d+")) { // https://stackoverflow.com/questions/4388546/how-to-determine-whether-a-string-contains-an-integer#comment95746806_4388597
-
-				} else {
-					throw new ParserException("Bad ID.");
-				}
-
-			} catch (Exception e) {
-
-			}
-
 			e = new ExprNode(tz);
+			id = new IdNode(tz);
 		}
 
 		@Override
@@ -57,7 +46,6 @@ public class Parser implements IParser {
 		@Override
 		public void buildString(StringBuilder builder, int tabs) {
 			builder.append("AssingmentNode\n");
-			builder.append(id.toString() + "\n"); // TODO id.value().toString?
 			builder.append(ao.toString() + "\n");
 			e.buildString(builder, tabs++);
 			builder.append(sc.toString() + "\n");
@@ -70,22 +58,11 @@ public class Parser implements IParser {
 
 		INode t;
 		INode e;
-		Lexeme op;
+		INode ad;
 
 		public ExprNode(ITokenizer tz) {
 
-			try {// TODO Try/catch might be unneeded.
-
-				if (op.token() == Token.ADD_OP || op.token() == Token.SUB_OP) {
-
-				} else {
-					throw new ParserException("Bad operator.");
-				}
-
-			} catch (Exception e) {
-
-			}
-
+			ad = new AdNode(tz);
 			t = new TermNode(tz);
 			e = new ExprNode(tz);
 		}
@@ -99,8 +76,7 @@ public class Parser implements IParser {
 		public void buildString(StringBuilder builder, int tabs) {
 			builder.append("ExpressionNode\n");
 			t.buildString(builder, tabs++);
-			builder.append(op.toString() + "\n");
-			e.buildString(builder, tabs++);
+
 		}
 
 	}
@@ -109,22 +85,11 @@ public class Parser implements IParser {
 
 		INode f;
 		INode t;
-		Lexeme op;
+		INode md;
 
 		public TermNode(ITokenizer tz) {
 
-			try {
-
-				if (op.token() == Token.MULT_OP || op.token() == Token.DIV_OP) {
-
-				} else {
-					throw new ParserException("Bad operator.");
-				}
-
-			} catch (Exception e) {
-
-			}
-
+			md = new MdNode(tz);
 			f = new FactorNode(tz);
 			t = new TermNode(tz);
 		}
@@ -174,30 +139,23 @@ public class Parser implements IParser {
 
 	}
 
-	private class LetterNode implements INode {
+	private class IdNode implements INode {
 
-		Lexeme lexeme;
+		Lexeme id;
 
-		public LetterNode(ITokenizer tz) {
+		public IdNode(ITokenizer tz) {
 
-		}
+			try {// TODO Try/catch might be unneeded.
 
-		@Override
-		public Object evaluate(Object[] args) throws Exception {
-			return null;
-		}
+				if (id.value().toString().matches("\\d+")) { // https://stackoverflow.com/questions/4388546/how-to-determine-whether-a-string-contains-an-integer#comment95746806_4388597
 
-		@Override
-		public void buildString(StringBuilder builder, int tabs) {
+				} else {
+					throw new ParserException("Bad ID.");
+				}
 
-		}
-	}
+			} catch (Exception e) {
 
-	private class NumberNode implements INode {
-
-		Lexeme lexeme;
-
-		public NumberNode(ITokenizer tz) {
+			}
 
 		}
 
@@ -212,11 +170,54 @@ public class Parser implements IParser {
 		}
 	}
 
-	private class SymbolNode implements INode {
+	private class AdNode implements INode {
 
-		Lexeme lexeme;
+		Lexeme ad;
 
-		public SymbolNode(Tokenizer tz) {
+		public AdNode(ITokenizer tz) {
+
+			try {// TODO Try/catch might be unneeded.
+
+				if (ad.token() == Token.ADD_OP || ad.token() == Token.SUB_OP) {
+
+				} else {
+					throw new ParserException("Bad operator.");
+				}
+
+			} catch (Exception e) {
+
+			}
+
+		}
+
+		@Override
+		public Object evaluate(Object[] args) throws Exception {
+			return null;
+		}
+
+		@Override
+		public void buildString(StringBuilder builder, int tabs) {
+
+		}
+	}
+
+	private class MdNode implements INode {
+
+		Lexeme md;
+
+		public MdNode(ITokenizer tz) {
+
+			try {
+
+				if (md.token() == Token.MULT_OP || md.token() == Token.DIV_OP) {
+
+				} else {
+					throw new ParserException("Bad operator.");
+				}
+
+			} catch (Exception e) {
+
+			}
 
 		}
 
