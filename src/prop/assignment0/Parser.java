@@ -37,7 +37,7 @@ public class Parser implements IParser {
 
 			try {// TODO Try/catch might be unneeded.
 
-				if (id.toString().matches("\\d+")) { // https://stackoverflow.com/questions/4388546/how-to-determine-whether-a-string-contains-an-integer#comment95746806_4388597
+				if (id.value().toString().matches("\\d+")) { // https://stackoverflow.com/questions/4388546/how-to-determine-whether-a-string-contains-an-integer#comment95746806_4388597
 
 				} else {
 					throw new ParserException("Bad ID.");
