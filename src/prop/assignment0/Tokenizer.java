@@ -23,6 +23,7 @@ public class Tokenizer implements ITokenizer {
 		Symbols.put('*', Token.MULT_OP);
 		Symbols.put('/', Token.DIV_OP);
 		Symbols.put('=', Token.ASSIGN_OP);
+		Symbols.put(';', Token.SEMICOLON);
 
 	}
 
