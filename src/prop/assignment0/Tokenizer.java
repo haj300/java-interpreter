@@ -10,7 +10,7 @@ public class Tokenizer implements ITokenizer {
     private static final HashSet<String> EXPR;
 
     static {
-        SYMBOLS = new HashMap<>();
+        Symbols = new HashMap<>();
         EXPR = new HashSet<>();
         
         // TODO: define the different constants of our grammar
