@@ -59,7 +59,7 @@ public class Parser implements IParser {
 		@Override
 		public void buildString(StringBuilder builder, int tabs) {
 			builder.append("AssingmentNode\n");
-			builder.append(id.toString() + "\n");
+			builder.append(id.toString() + "\n"); // TODO id.value().toString?
 			builder.append(ao.toString() + "\n");
 			e.buildString(builder, tabs++);
 			builder.append(sc.toString() + "\n");
