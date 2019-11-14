@@ -66,12 +66,12 @@ public class Parser implements IParser {
 
 		public ExprNode(ITokenizer tz) {
 
-			try {//TODO Try/catch might be unneeded. 
+			try {// TODO Try/catch might be unneeded.
 
 				if (op.token() == Token.ADD_OP || op.token() == Token.SUB_OP) {
 
 				} else {
-					throw new ParserException("Bad operator");
+					throw new ParserException("Bad operator.");
 				}
 
 			} catch (Exception e) {
@@ -110,7 +110,7 @@ public class Parser implements IParser {
 				if (op.token() == Token.MULT_OP || op.token() == Token.DIV_OP) {
 
 				} else {
-					throw new ParserException("Bad operator");
+					throw new ParserException("Bad operator.");
 				}
 
 			} catch (Exception e) {
@@ -139,9 +139,19 @@ public class Parser implements IParser {
 		Lexeme i;
 
 		public FactorNode(ITokenizer tz) {
-			
-			
-			e = new ExprNode(tz);
+
+			try {
+
+				if (i.value() instanceof Integer) {
+					e = new ExprNode(tz);
+				} else {
+					throw new ParserException("Bad operand.");
+				}
+
+			} catch (Exception e) {
+
+			}
+
 		}
 
 		@Override
