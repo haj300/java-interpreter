@@ -34,6 +34,10 @@ public class Parser implements IParser {
 
 		public AssignNode(ITokenizer tz) {
 
+			if (ao.token() == Token.ASSIGN_OP && sc.token() == Token.SEMICOLON) {
+
+			}
+
 			e = new ExprNode(tz);
 			id = new IdNode(tz);
 		}
@@ -110,8 +114,14 @@ public class Parser implements IParser {
 
 		INode e;
 		INode i;
+		Lexeme lp;
+		Lexeme rp;
 
 		public FactorNode(ITokenizer tz) {
+
+			if (lp.token() == Token.LEFT_PAREN && rp.token() == Token.RIGHT_PAREN) {
+
+			}
 
 			e = new ExprNode(tz);
 			i = new IntNode(tz);
