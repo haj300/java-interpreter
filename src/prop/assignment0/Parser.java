@@ -85,6 +85,7 @@ public class Parser implements IParser {
 
         INode f;
         INode t;
+        Lexeme op;
 
         public TermNode(ITokenizer tz) {
             f = new FactorNode(tz);
@@ -98,7 +99,10 @@ public class Parser implements IParser {
 
         @Override
         public void buildString(StringBuilder builder, int tabs) {
-
+            builder.append("TermNode\n");
+            f.buildString(builder, tabs++);
+            builder.append(op.toString() + "\n");
+            t.buildString(builder, tabs++);
         }
 
     }
@@ -107,6 +111,8 @@ public class Parser implements IParser {
 
         INode t;
         INode e;
+        Lexeme number;
+        Lexeme paren;
 
         public FactorNode(ITokenizer tz) {
             t = new TermNode(tz);
@@ -119,7 +125,9 @@ public class Parser implements IParser {
 
         @Override
         public void buildString(StringBuilder builder, int tabs) {
-
+            builder.append("FactorNode\n");
+            builder.append(number.toString() + "\n");
+            builder.append(paren.toString() + "\n");
         }
 
     }
@@ -184,7 +192,7 @@ public class Parser implements IParser {
         public void buildString(StringBuilder builder, int tabs) {
 
         }
-        }
+    }
 
 
 }
