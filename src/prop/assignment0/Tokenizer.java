@@ -12,7 +12,6 @@ public class Tokenizer implements ITokenizer {
 	static {
 		Symbols = new HashMap<>();
 		EXPR = new HashSet<>();
-		Numbers = new HashSet<Integer>();
 
 		// TODO: define the different constants of our grammar
 		// TODO Use all defined tokens?
