@@ -109,21 +109,12 @@ public class Parser implements IParser {
 	private class FactorNode implements INode {
 
 		INode e;
-		Lexeme i;
+		INode i;
 
 		public FactorNode(ITokenizer tz) {
 
-			try {
-
-				if (i.value() instanceof Integer) {
-					e = new ExprNode(tz);
-				} else {
-					throw new ParserException("Bad operand.");
-				}
-
-			} catch (Exception e) {
-
-			}
+			e = new ExprNode(tz);
+			i = new IntNode(tz);
 
 		}
 
@@ -213,6 +204,37 @@ public class Parser implements IParser {
 
 				} else {
 					throw new ParserException("Bad operator.");
+				}
+
+			} catch (Exception e) {
+
+			}
+
+		}
+
+		@Override
+		public Object evaluate(Object[] args) throws Exception {
+			return null;
+		}
+
+		@Override
+		public void buildString(StringBuilder builder, int tabs) {
+
+		}
+	}
+
+	private class IntNode implements INode {
+
+		Lexeme i;
+
+		public IntNode(ITokenizer tz) {
+
+			try {
+
+				if (i.value() instanceof Integer) {
+
+				} else {
+					throw new ParserException("Bad operand.");
 				}
 
 			} catch (Exception e) {
