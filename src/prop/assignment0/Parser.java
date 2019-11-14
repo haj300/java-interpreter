@@ -3,188 +3,186 @@ package prop.assignment0;
 import java.io.IOException;
 
 public class Parser implements IParser {
-    private ITokenizer tokenizer = null;
+	private ITokenizer tokenizer = null;
 
-    public void open(String fileName) throws IOException, TokenizerException {
-        tokenizer = new Tokenizer();
-        tokenizer.open(fileName);
-        tokenizer.moveNext();
-    }
+	public void open(String fileName) throws IOException, TokenizerException {
+		tokenizer = new Tokenizer();
+		tokenizer.open(fileName);
+		tokenizer.moveNext();
+	}
 
-    public INode parse() throws IOException, TokenizerException, ParserException {
-        if (tokenizer == null)
-            throw new IOException("No open file.");
-        return new AssignNode((tokenizer));
-    }
+	public INode parse() throws IOException, TokenizerException, ParserException {
+		if (tokenizer == null)
+			throw new IOException("No open file.");
+		return new AssignNode((tokenizer));
+	}
 
-    public void close() throws IOException {
-        if (tokenizer != null)
-            tokenizer.close();
-    }
+	public void close() throws IOException {
+		if (tokenizer != null)
+			tokenizer.close();
+	}
 
-    private void addTabs(StringBuilder builder, int tabs) {
+	private void addTabs(StringBuilder builder, int tabs) {
 
-    }
+	}
 
-    private class AssignNode implements INode {
-        INode e;
-        INode l;
-        Lexeme id;
-        Lexeme ao;
-        Lexeme sc;
+	private class AssignNode implements INode {
+		INode e;
+		INode l;
+		Lexeme id;
+		Lexeme ao;
+		Lexeme sc;
 
-        public AssignNode(ITokenizer tz) {
-            l = new LetterNode(tz);
-            e = new ExprNode(tz);
-        }
+		public AssignNode(ITokenizer tz) {
 
-        @Override
-        public Object evaluate(Object[] args) throws Exception {
-            return null;
-        }
+			//TODO Check that first char of ID is letter.
 
-        @Override
-        public void buildString(StringBuilder builder, int tabs) {
-            builder.append("AssingmentNode\n");
-            builder.append(id.toString() + "\n");
-            builder.append(ao.toString() + "\n");
-            e.buildString(builder, tabs++);
-            builder.append(sc.toString() + "\n");
+			l = new LetterNode(tz);
+			e = new ExprNode(tz);
+		}
 
-        }
+		@Override
+		public Object evaluate(Object[] args) throws Exception {
+			return null;
+		}
 
-    }
+		@Override
+		public void buildString(StringBuilder builder, int tabs) {
+			builder.append("AssingmentNode\n");
+			builder.append(id.toString() + "\n");
+			builder.append(ao.toString() + "\n");
+			e.buildString(builder, tabs++);
+			builder.append(sc.toString() + "\n");
 
-    private class ExprNode implements INode {
+		}
 
-        INode t;
-        INode e;
-        Lexeme op;
+	}
 
-        public ExprNode(ITokenizer tz) {
-            t = new TermNode(tz);
-            e = new ExprNode(tz);
-        }
+	private class ExprNode implements INode {
 
-        @Override
-        public Object evaluate(Object[] args) throws Exception {
-            return null;
-        }
+		INode t;
+		INode e;
+		Lexeme op;
 
-        @Override
-        public void buildString(StringBuilder builder, int tabs) {
-            builder.append("ExpressionNode\n");
-            t.buildString(builder,tabs++);
-            builder.append(op.toString() + "\n");
-            e.buildString(builder, tabs++);
-        }
+		public ExprNode(ITokenizer tz) {
+			t = new TermNode(tz);
+			e = new ExprNode(tz);
+		}
 
-    }
+		@Override
+		public Object evaluate(Object[] args) throws Exception {
+			return null;
+		}
 
-    private class TermNode implements INode {
+		@Override
+		public void buildString(StringBuilder builder, int tabs) {
+			builder.append("ExpressionNode\n");
+			t.buildString(builder, tabs++);
+			builder.append(op.toString() + "\n");
+			e.buildString(builder, tabs++);
+		}
 
-        INode f;
-        INode t;
+	}
 
-        public TermNode(ITokenizer tz) {
-            f = new FactorNode(tz);
-            t = new TermNode(tz);
-        }
+	private class TermNode implements INode {
 
-        @Override
-        public Object evaluate(Object[] args) throws Exception {
-            return null;
-        }
+		INode f;
+		INode t;
 
-        @Override
-        public void buildString(StringBuilder builder, int tabs) {
+		public TermNode(ITokenizer tz) {
+			f = new FactorNode(tz);
+			t = new TermNode(tz);
+		}
 
-        }
+		@Override
+		public Object evaluate(Object[] args) throws Exception {
+			return null;
+		}
 
-    }
+		@Override
+		public void buildString(StringBuilder builder, int tabs) {
 
-    private class FactorNode implements INode {
+		}
 
-        INode t;
-        INode e;
+	}
 
-        public FactorNode(ITokenizer tz) {
-            t = new TermNode(tz);
-            e = new ExprNode(tz);
-        }
-        @Override
-        public Object evaluate(Object[] args) throws Exception {
-            return null;
-        }
+	private class FactorNode implements INode {
 
-        @Override
-        public void buildString(StringBuilder builder, int tabs) {
+		INode t;
+		INode e;
 
-        }
+		public FactorNode(ITokenizer tz) {
+			t = new TermNode(tz);
+			e = new ExprNode(tz);
+		}
 
-    }
+		@Override
+		public Object evaluate(Object[] args) throws Exception {
+			return null;
+		}
 
-    private class LetterNode implements INode {
+		@Override
+		public void buildString(StringBuilder builder, int tabs) {
 
-        Lexeme lexeme;
+		}
 
-        public LetterNode(ITokenizer tz) {
+	}
 
-        }
+	private class LetterNode implements INode {
 
-        @Override
-        public Object evaluate(Object[] args) throws Exception {
-            return null;
-        }
+		Lexeme lexeme;
 
-        @Override
-        public void buildString(StringBuilder builder, int tabs) {
+		public LetterNode(ITokenizer tz) {
 
-        }
-    }
+		}
 
+		@Override
+		public Object evaluate(Object[] args) throws Exception {
+			return null;
+		}
 
-    private class NumberNode implements INode {
+		@Override
+		public void buildString(StringBuilder builder, int tabs) {
 
-        Lexeme lexeme;
+		}
+	}
 
-        public NumberNode(ITokenizer tz) {
+	private class NumberNode implements INode {
 
+		Lexeme lexeme;
 
-        }
+		public NumberNode(ITokenizer tz) {
 
-        @Override
-        public Object evaluate(Object[] args) throws Exception {
-            return null;
-        }
+		}
 
-        @Override
-        public void buildString(StringBuilder builder, int tabs) {
+		@Override
+		public Object evaluate(Object[] args) throws Exception {
+			return null;
+		}
 
-        }
-    }
+		@Override
+		public void buildString(StringBuilder builder, int tabs) {
 
+		}
+	}
 
+	private class SymbolNode implements INode {
 
-    private class SymbolNode implements INode {
+		Lexeme lexeme;
 
-            Lexeme lexeme;
+		public SymbolNode(Tokenizer tz) {
 
-            public SymbolNode(Tokenizer tz) {
+		}
 
+		@Override
+		public Object evaluate(Object[] args) throws Exception {
+			return null;
+		}
 
-            }
+		@Override
+		public void buildString(StringBuilder builder, int tabs) {
 
-        @Override
-        public Object evaluate(Object[] args) throws Exception {
-            return null;
-        }
-
-        @Override
-        public void buildString(StringBuilder builder, int tabs) {
-
-        }
-        }
-
+		}
+	}
 
 }
