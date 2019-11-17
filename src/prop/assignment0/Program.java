@@ -34,6 +34,7 @@ public class Program {
                 writer.write(builder.toString());
             }
             catch (Exception exception) {
+                exception.printStackTrace();
                 System.out.println("EXCEPTION: " + exception);
             }
             finally {

@@ -22,34 +22,44 @@ public class Parser implements IParser {
             tokenizer.close();
     }
 
-    private void addTabs(StringBuilder builder, int tabs) {
-
+    private String addTabs(int tabs) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < tabs; i++){
+            builder.append("\t");
+        }
+        return builder.toString();
     }
 
     private class AssignNode implements INode {
         INode e;
-        INode l;
         Lexeme id;
         Lexeme ao;
         Lexeme sc;
 
-        public AssignNode(ITokenizer tz) {
-            l = new LetterNode(tz);
+        public AssignNode(ITokenizer tz) throws IOException, TokenizerException {
+            id = tokenizer.current();
+            tokenizer.moveNext();
+            ao = tokenizer.current();
+            tokenizer.moveNext();
             e = new ExprNode(tz);
+            sc = tokenizer.current();
+            tokenizer.moveNext();
         }
 
         @Override
         public Object evaluate(Object[] args) throws Exception {
-            return null;
+            return (String) id.value() + ao.value() + e.evaluate(null) ;
         }
 
         @Override
         public void buildString(StringBuilder builder, int tabs) {
             builder.append("AssingmentNode\n");
-            builder.append(id.toString() + "\n");
-            builder.append(ao.toString() + "\n");
-            e.buildString(builder, tabs++);
-            builder.append(sc.toString() + "\n");
+            String tab = addTabs(++tabs);
+            builder.append(tab + id.toString() + "\n");
+            builder.append(tab + ao.toString() + "\n");
+            builder.append(tab + "ExpressionNode\n");
+            e.buildString(builder, ++tabs);
+            builder.append(tab + sc.toString() + "\n");
 
         }
 
@@ -61,22 +71,37 @@ public class Parser implements IParser {
         INode e;
         Lexeme op;
 
-        public ExprNode(ITokenizer tz) {
+        public ExprNode(ITokenizer tz) throws IOException, TokenizerException {
             t = new TermNode(tz);
-            e = new ExprNode(tz);
+            op = tokenizer.current();
+            if (op.token() == Token.ADD_OP || op.token() == Token.SUB_OP){
+                tokenizer.moveNext();
+                e = new ExprNode(tz);
+            }
         }
 
         @Override
         public Object evaluate(Object[] args) throws Exception {
-            return null;
+            if(op.token() == Token.ADD_OP) {
+               return (double) t.evaluate(null) + (double) e.evaluate(null);
+            } else if (op.token() == Token.SUB_OP){
+                return (double) t.evaluate(null) - (double) e.evaluate(null);
+            } else {
+                return t.evaluate(null);
+            }
         }
 
         @Override
         public void buildString(StringBuilder builder, int tabs) {
-            builder.append("ExpressionNode\n");
-            t.buildString(builder,tabs++);
-            builder.append(op.toString() + "\n");
-            e.buildString(builder, tabs++);
+            String tab = addTabs(tabs);
+            builder.append(tab + "TermNode\n");
+            t.buildString(builder,++tabs);
+            if (op.token() == Token.ADD_OP || op.token() == Token.SUB_OP) {
+                builder.append(tab + op.toString() + "\n");
+                builder.append(tab + "ExpressionNode\n");
+                e.buildString(builder, ++tabs);
+            }
+
         }
 
     }
@@ -87,112 +112,79 @@ public class Parser implements IParser {
         INode t;
         Lexeme op;
 
-        public TermNode(ITokenizer tz) {
+        public TermNode(ITokenizer tz) throws IOException, TokenizerException {
             f = new FactorNode(tz);
-            t = new TermNode(tz);
+            op = tokenizer.current();
+            if (op.token() == Token.MULT_OP || op.token() == Token.DIV_OP){
+                tokenizer.moveNext();
+                t = new TermNode(tz);
+            }
         }
 
         @Override
         public Object evaluate(Object[] args) throws Exception {
-            return null;
+            if (op.token() == Token.MULT_OP) {
+                return (double)f.evaluate(null) * (double)t.evaluate(null);
+            } else if (op.token() == Token.DIV_OP) {
+                return (double)f.evaluate(null) / (double)t.evaluate(null);
+            } else {
+                return f.evaluate(null);
+            }
         }
 
         @Override
         public void buildString(StringBuilder builder, int tabs) {
-            builder.append("TermNode\n");
-            f.buildString(builder, tabs++);
-            builder.append(op.toString() + "\n");
-            t.buildString(builder, tabs++);
+            String tab = addTabs(tabs);
+            builder.append(tab + "FactorNode\n");
+            f.buildString(builder, ++tabs);
+            if (op.token() == Token.MULT_OP || op.token() == Token.DIV_OP) {
+
+                builder.append(tab + op.toString() + "\n");
+                builder.append(tab + "TermNode\n");
+                t.buildString(builder, ++tabs);
+            }
         }
 
     }
 
     private class FactorNode implements INode {
 
-        INode t;
         INode e;
-        Lexeme number;
-        Lexeme paren;
+        Lexeme firstCh;
 
-        public FactorNode(ITokenizer tz) {
-            t = new TermNode(tz);
-            e = new ExprNode(tz);
-        }
-        @Override
-        public Object evaluate(Object[] args) throws Exception {
-            return null;
-        }
+        public FactorNode(ITokenizer tz) throws IOException, TokenizerException {
+            firstCh = tokenizer.current();
+            tokenizer.moveNext();
 
-        @Override
-        public void buildString(StringBuilder builder, int tabs) {
-            builder.append("FactorNode\n");
-            builder.append(number.toString() + "\n");
-            builder.append(paren.toString() + "\n");
-        }
-
-    }
-
-    private class LetterNode implements INode {
-
-        Lexeme lexeme;
-
-        public LetterNode(ITokenizer tz) {
-
-        }
-
-        @Override
-        public Object evaluate(Object[] args) throws Exception {
-            return null;
-        }
-
-        @Override
-        public void buildString(StringBuilder builder, int tabs) {
-
-        }
-    }
-
-
-    private class NumberNode implements INode {
-
-        Lexeme lexeme;
-
-        public NumberNode(ITokenizer tz) {
-
-
-        }
-
-        @Override
-        public Object evaluate(Object[] args) throws Exception {
-            return null;
-        }
-
-        @Override
-        public void buildString(StringBuilder builder, int tabs) {
-
-        }
-    }
-
-
-
-    private class SymbolNode implements INode {
-
-            Lexeme lexeme;
-
-            public SymbolNode(Tokenizer tz) {
-
-
+            if (firstCh.token() == Token.LEFT_PAREN) {
+                e = new ExprNode(tz);
+                tokenizer.moveNext();
+                tokenizer.moveNext();
             }
 
+        }
         @Override
         public Object evaluate(Object[] args) throws Exception {
-            return null;
+            if (firstCh.token() == Token.INT_LIT){
+                return Double.valueOf(firstCh.value().toString());
+            } else if (firstCh.token() == Token.LEFT_PAREN){
+                return e.evaluate(null);
+            }
+            throw new ParserException("Wrong token");
         }
 
         @Override
         public void buildString(StringBuilder builder, int tabs) {
-
+            String tab = addTabs(tabs);
+            if (firstCh.token() == Token.INT_LIT) {
+                builder.append(tab + firstCh.toString() + "\n");
+            } else {
+                builder.append(tab + "LEFT_PAREN (\n");
+                builder.append(tab + "ExpressionNode\n");
+                e.buildString(builder, ++tabs);
+                builder.append(tab + "RIGHT_PAREN )\n");
+            }
         }
     }
-
 
 }
