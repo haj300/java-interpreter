@@ -150,7 +150,8 @@ public class Parser implements IParser {
     private class FactorNode implements INode {
 
         INode e;
-        Lexeme firstCh;
+        Lexeme firstCh; 
+        Lexeme parenRight;
 
         public FactorNode(ITokenizer tz) throws IOException, TokenizerException {
             firstCh = tokenizer.current();
@@ -158,7 +159,7 @@ public class Parser implements IParser {
 
             if (firstCh.token() == Token.LEFT_PAREN) {
                 e = new ExprNode(tz);
-                tokenizer.moveNext();
+                parenRight = tokenizer.current();
                 tokenizer.moveNext();
             }
 
@@ -179,10 +180,10 @@ public class Parser implements IParser {
             if (firstCh.token() == Token.INT_LIT) {
                 builder.append(tab + firstCh.toString() + "\n");
             } else {
-                builder.append(tab + "LEFT_PAREN (\n");
+                builder.append(tab + firstCh.toString() + "\n");
                 builder.append(tab + "ExpressionNode\n");
                 e.buildString(builder, ++tabs);
-                builder.append(tab + "RIGHT_PAREN )\n");
+                builder.append(tab + parenRight.toString() +"\n");
             }
         }
     }

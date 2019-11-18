@@ -25,7 +25,11 @@ AssingmentNode
 										FactorNode
 											INT_LIT 4
 						RIGHT_PAREN )
-	INT_LIT 5
+					DIV_OP /
+					TermNode
+							FactorNode
+								INT_LIT 5
+	SEMICOLON ;
 
 EVALUATION:
-a=1.0
+a=1.8
