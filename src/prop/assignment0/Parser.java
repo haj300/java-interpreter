@@ -14,7 +14,7 @@ public class Parser implements IParser {
     public INode parse() throws IOException, TokenizerException, ParserException {
         if (tokenizer == null)
             throw new IOException("No open file.");
-        return new AssignNode((tokenizer));
+        return new AssignNode();
     }
 
     public void close() throws IOException {
@@ -36,12 +36,12 @@ public class Parser implements IParser {
         Lexeme ao;
         Lexeme sc;
 
-        public AssignNode(ITokenizer tz) throws IOException, TokenizerException {
+        public AssignNode() throws IOException, TokenizerException {
             id = tokenizer.current();
             tokenizer.moveNext();
             ao = tokenizer.current();
             tokenizer.moveNext();
-            e = new ExprNode(tz);
+            e = new ExprNode();
             sc = tokenizer.current();
             tokenizer.moveNext();
         }
@@ -71,12 +71,12 @@ public class Parser implements IParser {
         INode e;
         Lexeme op;
 
-        public ExprNode(ITokenizer tz) throws IOException, TokenizerException {
-            t = new TermNode(tz);
+        public ExprNode() throws IOException, TokenizerException {
+            t = new TermNode();
             op = tokenizer.current();
             if (op.token() == Token.ADD_OP || op.token() == Token.SUB_OP){
                 tokenizer.moveNext();
-                e = new ExprNode(tz);
+                e = new ExprNode();
             }
         }
 
@@ -112,12 +112,12 @@ public class Parser implements IParser {
         INode t;
         Lexeme op;
 
-        public TermNode(ITokenizer tz) throws IOException, TokenizerException {
-            f = new FactorNode(tz);
+        public TermNode() throws IOException, TokenizerException {
+            f = new FactorNode();
             op = tokenizer.current();
             if (op.token() == Token.MULT_OP || op.token() == Token.DIV_OP){
                 tokenizer.moveNext();
-                t = new TermNode(tz);
+                t = new TermNode();
             }
         }
 
@@ -150,20 +150,20 @@ public class Parser implements IParser {
     private class FactorNode implements INode {
 
         INode e;
-        Lexeme firstCh; 
+        Lexeme firstCh;
         Lexeme parenRight;
 
-        public FactorNode(ITokenizer tz) throws IOException, TokenizerException {
+        public FactorNode() throws IOException, TokenizerException {
             firstCh = tokenizer.current();
             tokenizer.moveNext();
 
             if (firstCh.token() == Token.LEFT_PAREN) {
-                e = new ExprNode(tz);
+                e = new ExprNode();
                 parenRight = tokenizer.current();
                 tokenizer.moveNext();
             }
-
         }
+
         @Override
         public Object evaluate(Object[] args) throws Exception {
             if (firstCh.token() == Token.INT_LIT){
