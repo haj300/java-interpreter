@@ -4,6 +4,8 @@ package prop.assignment0;
  * @author Katja Lindeberg
  * @author Marcus Wallén
  * @author Jesper Westin
+ * 
+ * Tre-grupp godkänd av Beatrice.
  */
 
 import java.io.IOException;
